@@ -3412,7 +3412,8 @@ void SurfaceFlinger::initScheduler(const sp<DisplayDevice>& display) {
     using Feature = scheduler::Feature;
     scheduler::FeatureFlags features;
 
-    if (sysprop::use_content_detection_for_refresh_rate(false)) {
+    if (sysprop::use_content_detection_for_refresh_rate(false) && base::GetBoolProperty("persist.sys.catalyst.enable.rr.content.detection"s, true)) {
+        ALOGD("Enabling content detection for refresh rate");
         features |= Feature::kContentDetection;
     }
     if (base::GetBoolProperty("debug.sf.show_predicted_vsync"s, false)) {
